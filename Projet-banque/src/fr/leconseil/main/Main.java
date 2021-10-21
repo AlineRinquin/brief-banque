@@ -22,17 +22,39 @@ public class Main extends AccesBD implements Requetes{
 //		}
 		
 		
+
 //		Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
 //		for (Compte compte : Requetes.getAllComptes()) {
 //		System.out.println(compte);
 //		}
 		//Noreddine
-		Requetes.updateCompte(new Compte(10010,1,1004,8600.00f));
-		Requetes.updateTitulaire(new Titulaire(1005,"Jon","Carter","20 Rue de barbess",75020));
-		Requetes.updateTypeDeCompte(new TypeDeCompte(5,"PEA"));
+		Requetes.updateCompte(new Compte(10005));
+//		Requetes.updateTitulaire(new Titulaire(1005,"Jon","Carter","20 Rue de barbess",75020));
+//		Requetes.updateTypeDeCompte(new TypeDeCompte(5,"PEA"));
 	
 		
 			
+
+		//Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
+//		for (Compte compte : Requetes.getAllComptes()) {
+//		System.out.println(compte);
+//		}
+//		
+//		Requetes.createTitulaire(new Titulaire(1007, "Aline", "RINQUIN", "65 avenue des requêtesSQL", 75011));
+//		Requetes.createTitulaire(new Titulaire(1008, "Noreddine", "KEDDAR", "17 impasse d'Eclipse", 77900));
+//		Requetes.createTitulaire(new Titulaire(1009, "Julian", "TOMCZYK", "79 rue du  JDK 16", 75011));
+//
+//		Requetes.createTypeDeCompte(new TypeDeCompte(9, "Compte Bar"));
+//
+//
+//		
+//		for (Compte compte : Requetes.getAllComptesFromTitulaire(new Titulaire(1000, "Philippe", "Bouget", "52 rue de la Java", 75013))) {
+//			System.out.println(compte);
+//		}
+		
+	
+		
+
 	}
 
 }
