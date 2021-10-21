@@ -63,13 +63,12 @@ public interface Requetes {
 	}
 	
 	//Romain
-	
 	public static void createCompte(Compte compte) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO compte VALUES (?, ?, ?, ?)");
 		PreparedStatement.setInt(1, compte.getNumero());
-		PreparedStatement.setInt(2, compte.getCodeTypeCompte());
-		PreparedStatement.setInt(3, compte.getCodeTitulaire());
+		//PreparedStatement.setInt(2, compte.getCodeTypeCompte());
+		//PreparedStatement.setInt(3, compte.getCodeTitulaire());
 		PreparedStatement.setFloat(4, compte.getSolde());
 		
 		PreparedStatement.executeUpdate();
@@ -96,5 +95,120 @@ public interface Requetes {
 			return operations;
 		}
 	
+
+	//Noreddine 
+	
+	public static void updateCompte(Compte compte) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET codeTypeCompte = ? , codeTitulaire = ? , solde = ? WHERE numero = ? ");
+		prepareStatement.setInt(1,1);
+		prepareStatement.setInt(2,1001);
+		prepareStatement.setFloat(3,70000);
+		prepareStatement.setInt(4,compte.getNumero());
+		
+		prepareStatement.executeUpdate();
+		
+	}
+	
+	//Noreddine
+	
+	public static void updateTitulaire(Titulaire titulaire) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE titulaire SET prenom = ? , nom = ? , adresse = ?, codePostal = ? WHERE code = ? ");
+		prepareStatement.setString(1,titulaire.getNom());
+		prepareStatement.setString(2,titulaire.getPrenom());
+		prepareStatement.setString(3,titulaire.getAdresse());
+		prepareStatement.setInt(4,titulaire.getCodePostal());
+		prepareStatement.setInt(5,titulaire.getCode());
+		
+		prepareStatement.executeUpdate();
+	}
+
+
+	// Romain
+	public static void createTypeDeCompte(TypeDeCompte typeCompte) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte VALUES (?, ?)");
+		PreparedStatement.setInt(1, typeCompte.getCode());
+		PreparedStatement.setString(2, typeCompte.getIntitule());
+		
+		PreparedStatement.executeUpdate();
+		
+	}
+	// Romain
+	public static void createTitulaire(Titulaire titulaire) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO titulaire VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement.setInt(1, titulaire.getCode());
+		PreparedStatement.setString(2, titulaire.getPrenom());
+		PreparedStatement.setString(3, titulaire.getNom());
+		PreparedStatement.setString(4, titulaire.getAdresse());
+		PreparedStatement.setInt(5, titulaire.getCodePostal());
+
+		
+		PreparedStatement.executeUpdate();
+
+		
+	}
+	
+
+
+	//Noreddine
+	
+	public static void updateTypeDeCompte(TypeDeCompte typeDeCompte) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE typecompte SET intitule = ? WHERE code = ? ");
+		prepareStatement.setString(1,typeDeCompte.getIntitule());
+		prepareStatement.setInt(2,typeDeCompte.getCode());
+		
+		prepareStatement.executeUpdate();
+	}
+
+	//Aline
+	public static void deleteCompte(Compte compte) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Compte WHERE numero=?");
+		PreparedStatement.setInt(1, compte.getNumero());
+		PreparedStatement.executeUpdate();
+	}
+	
+	//Aline
+	public static void deleteTitulaire(Titulaire titulaire) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Titulaire WHERE code=?");
+		PreparedStatement.setInt(1, titulaire.getCode());
+		PreparedStatement.executeUpdate();
+	}
+	
+	//Aline
+	public static void deleteTypeDeCompte(TypeDeCompte typeDeCompte) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Typecompte WHERE code=?");
+		PreparedStatement.setInt(1, typeDeCompte.getCode());
+		PreparedStatement.executeUpdate();
+	}
+	 
+	
+	//Aline
+	public static ArrayList<Compte> getAllComptesFromTitulaire (Titulaire titulaire) throws SQLException {
+		
+
+		ArrayList<Compte> comptes=new ArrayList<Compte>();
+		String requete = "select compte.numero, compte.codeTypeCompte, compte.codeTitulaire, compte.solde, titulaire.* from compte inner join titulaire on compte.codeTitulaire = titulaire.code and titulaire.code ="+ titulaire.getCode();
+		ResultSet resultat = AccesBD.executerQuery(requete);
+		while(resultat.next()) {
+			Compte compte = new Compte();
+			compte.setNumero(resultat.getInt("numero"));
+			compte.setCodeTypeCompte(resultat.getInt("codeTypeCompte"));
+			compte.setCodeTitulaire(resultat.getInt("codeTitulaire"));
+			compte.setSolde(resultat.getInt("solde"));
+//			compte.getCodeTitulaire().setCode(resultat.getInt("code"));
+//			compte.getCodeTitulaire().setPrenom(resultat.getString("prenom"));
+//			compte.getCodeTitulaire().setNom(resultat.getString("nom"));
+//			compte.getCodeTitulaire().setAdresse(resultat.getString("adresse"));
+//			compte.getCodeTitulaire().setCodePostal(resultat.getInt("codePostal"));
+			
+			comptes.add(compte);
+		}
+		return comptes;
+		
+	
+	}
 	
 }
