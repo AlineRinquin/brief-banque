@@ -76,5 +76,25 @@ public interface Requetes {
 		
 	}
 	
+	//Julian
+		public static ArrayList<Operation> getAllOperationsFromComptes(Compte compte) throws SQLException {
+			ArrayList<Operation> operations = new ArrayList<Operation>();
+			String requete = "SELECT * FROM operations WHERE numeroCompte = " + compte.getNumero();
+			ResultSet resultat = AccesBD.executerQuery(requete);
+			
+			while(resultat.next()) {
+				Operation operation = new Operation();
+				operation.setNumero(resultat.getInt("numero"));
+				operation.setNumeroCompte(compte);
+				operation.setDate(resultat.getDate("date"));
+				operation.setLibelle(resultat.getString("libelle"));
+				operation.setMontant(resultat.getFloat("montant"));
+				operation.setTypeOp(resultat.getString("typeop"));
+				operations.add(operation);
+			}
+			
+			return operations;
+		}
+	
 	
 }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import fr.leconseil.accesbd.AccesBD;
 import fr.leconseil.model.Compte;
+import fr.leconseil.model.Operation;
 import fr.leconseil.model.Requetes;
 import fr.leconseil.model.Titulaire;
 import fr.leconseil.model.TypeDeCompte;
@@ -22,9 +23,13 @@ public class Main extends AccesBD implements Requetes{
 //		}
 		
 		
-		Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
-		for (Compte compte : Requetes.getAllComptes()) {
-		System.out.println(compte);
+		//Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
+//		for (Compte compte : Requetes.getAllComptes()) {
+//		System.out.println(compte);
+//		}
+		
+		for (Operation operation : Requetes.getAllOperationsFromComptes(new Compte(10001, 1, 1001, 100.00f))) {
+			System.out.println(operation);
 		}
 	}
 
