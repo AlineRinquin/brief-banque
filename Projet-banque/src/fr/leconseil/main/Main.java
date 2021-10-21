@@ -17,10 +17,15 @@ public class Main extends AccesBD implements Requetes{
 //		for (Titulaire titulaire : Requetes.getAllTitulaire()) {
 //			System.out.println(titulaire);
 //		}
-		for (TypeDeCompte typeCompte : Requetes.getAllTypeDeCompte()) {
-			System.out.println(typeCompte);
-		}
+//		for (TypeDeCompte typeCompte : Requetes.getAllTypeDeCompte()) {
+//			System.out.println(typeCompte);
+//		}
 		
+		
+		Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
+		for (Compte compte : Requetes.getAllComptes()) {
+		System.out.println(compte);
+		}
 	}
 
 }

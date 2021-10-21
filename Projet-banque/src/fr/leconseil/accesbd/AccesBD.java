@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class AccesBD {
 	private static String utilisateur="root";
-	private static String motDePasse="Hedietaline1609!";
+	private static String motDePasse="admin";
 	private static String pilote = "com.mysql.cj.jdbc.Driver";
 	private static String url = "jdbc:mysql://localhost:3308/banque?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	protected static Connection connexion=null;

@@ -1,5 +1,6 @@
 package fr.leconseil.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import fr.leconseil.accesbd.AccesBD;
 
 public interface Requetes {
 	
+	//Julian
 	public static ArrayList<Compte> getAllComptes() throws SQLException {
 		ArrayList<Compte> comptes = new ArrayList<Compte>();
 		String requete = "SELECT * FROM compte";
@@ -25,6 +27,7 @@ public interface Requetes {
 		return comptes;
 	}
 	
+	//Noreddine
 	public static ArrayList<Titulaire> getAllTitulaire() throws SQLException {
 		ArrayList<Titulaire> titulaires = new ArrayList<Titulaire>();
 		String requete = "SELECT * FROM titulaire";
@@ -43,6 +46,7 @@ public interface Requetes {
 		return titulaires;
 	}
 	
+	//Aline
 	public static ArrayList<TypeDeCompte> getAllTypeDeCompte() throws SQLException {
 		ArrayList<TypeDeCompte> typeDeComptes = new ArrayList<TypeDeCompte>();
 		String requete = "SELECT * FROM typecompte";
@@ -58,6 +62,19 @@ public interface Requetes {
 		return typeDeComptes;
 	}
 	
+	//Romain
+	
+	public static void createCompte(Compte compte) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO compte VALUES (?, ?, ?, ?)");
+		PreparedStatement.setInt(1, compte.getNumero());
+		PreparedStatement.setInt(2, compte.getCodeTypeCompte());
+		PreparedStatement.setInt(3, compte.getCodeTitulaire());
+		PreparedStatement.setFloat(4, compte.getSolde());
+		
+		PreparedStatement.executeUpdate();
+		
+	}
 	
 	
 }
