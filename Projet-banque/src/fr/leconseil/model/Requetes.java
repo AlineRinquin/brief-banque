@@ -76,5 +76,44 @@ public interface Requetes {
 		
 	}
 	
+	//Noreddine 
+	
+	public static void updateCompte(Compte compte) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET codeTypeCompte = ? , codeTitulaire = ? , solde = ? WHERE numero = ? ");
+		prepareStatement.setInt(1,compte.getCodeTypeCompte());
+		prepareStatement.setInt(2,compte.getCodeTitulaire());
+		prepareStatement.setFloat(3,compte.getSolde());
+		prepareStatement.setInt(4,compte.getNumero());
+		
+		prepareStatement.executeUpdate();
+		
+	}
+	
+	//Noreddine
+	
+	public static void updateTitulaire(Titulaire titulaire) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE titulaire SET prenom = ? , nom = ? , adresse = ?, codePostal = ? WHERE code = ? ");
+		prepareStatement.setString(1,titulaire.getNom());
+		prepareStatement.setString(2,titulaire.getPrenom());
+		prepareStatement.setString(3,titulaire.getAdresse());
+		prepareStatement.setInt(4,titulaire.getCodePostal());
+		prepareStatement.setInt(5,titulaire.getCode());
+		
+		prepareStatement.executeUpdate();
+		
+	}
+	
+
+	//Noreddine
+	
+	public static void updateTypeDeCompte(TypeDeCompte typeDeCompte) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE typecompte SET intitule = ? WHERE code = ? ");
+		prepareStatement.setString(1,typeDeCompte.getIntitule());
+		prepareStatement.setInt(2,typeDeCompte.getCode());
+		
+		prepareStatement.executeUpdate();
+		
+	}
+
 	
 }
