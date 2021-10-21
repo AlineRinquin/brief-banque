@@ -17,6 +17,10 @@ public class Titulaire {
 		this.codePostal = codePostal;
 	}
 	
+	public Titulaire(int code) {
+		this.code = code;
+	}
+	
 	public Titulaire () {
 		
 	}

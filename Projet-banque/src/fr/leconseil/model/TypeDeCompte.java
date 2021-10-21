@@ -10,6 +10,9 @@ public class TypeDeCompte {
 		this.intitule = intitule;
 	}
 	
+	public TypeDeCompte(int code) {
+		this.code = code;
+	}
 	
 	public TypeDeCompte() {
 		

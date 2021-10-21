@@ -2,11 +2,11 @@ package fr.leconseil.model;
 
 public class Compte {
 	private int numero;
-	private int codeTypeCompte;
-	private int codeTitulaire;
+	private TypeDeCompte codeTypeCompte;
+	private Titulaire codeTitulaire;
 	private float solde;
 	
-	public Compte(int numero, int codeTypeCompte, int codeTitulaire, float solde) {
+	public Compte(int numero, TypeDeCompte codeTypeCompte, Titulaire codeTitulaire, float solde) {
 		super();
 		this.numero = numero;
 		this.codeTypeCompte = codeTypeCompte;
@@ -14,8 +14,13 @@ public class Compte {
 		this.solde = solde;
 	}
 	
+	public Compte(int numero) {
+		this.numero = numero;
+	}
+	
 	public Compte() {
-		
+		this.codeTitulaire = new Titulaire();
+		this.codeTypeCompte = new TypeDeCompte();
 	}
 
 	public int getNumero() {
@@ -26,20 +31,20 @@ public class Compte {
 		this.numero = numero;
 	}
 
-	public int getCodeTypeCompte() {
+	public TypeDeCompte getCodeTypeCompte() {
 		return codeTypeCompte;
 	}
 
 	public void setCodeTypeCompte(int codeTypeCompte) {
-		this.codeTypeCompte = codeTypeCompte;
+		this.codeTypeCompte.setCode(codeTypeCompte);
 	}
 
-	public int getCodeTitulaire() {
+	public Titulaire getCodeTitulaire() {
 		return codeTitulaire;
 	}
 
 	public void setCodeTitulaire(int codeTitulaire) {
-		this.codeTitulaire = codeTitulaire;
+		this.codeTitulaire.setCode(codeTitulaire);
 	}
 
 	public float getSolde() {
