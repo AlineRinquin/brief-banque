@@ -43,5 +43,21 @@ public interface Requetes {
 		return titulaires;
 	}
 	
+	public static ArrayList<TypeDeCompte> getAllTypeDeCompte() throws SQLException {
+		ArrayList<TypeDeCompte> typeDeComptes = new ArrayList<TypeDeCompte>();
+		String requete = "SELECT * FROM typecompte";
+		ResultSet resultat = AccesBD.executerQuery(requete);
+		
+		while(resultat.next()) {
+			TypeDeCompte typeDeCompte = new TypeDeCompte();
+			typeDeCompte.setCode(resultat.getInt("code"));
+			typeDeCompte.setIntitule(resultat.getString("intitule"));
+			typeDeComptes.add(typeDeCompte);
+		}
+		
+		return typeDeComptes;
+	}
+	
+	
 	
 }
