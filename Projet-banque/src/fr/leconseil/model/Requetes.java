@@ -24,4 +24,24 @@ public interface Requetes {
 		
 		return comptes;
 	}
+	
+	public static ArrayList<Titulaire> getAllTitulaire() throws SQLException {
+		ArrayList<Titulaire> titulaires = new ArrayList<Titulaire>();
+		String requete = "SELECT * FROM titulaire";
+		ResultSet resultat = AccesBD.executerQuery(requete);
+		
+		while(resultat.next()) {
+			Titulaire titulaire = new Titulaire();
+			titulaire.setCode(resultat.getInt("code"));
+			titulaire.setPrenom(resultat.getString("prenom"));
+			titulaire.setNom(resultat.getString("nom"));
+			titulaire.setAdresse(resultat.getString("adresse"));
+			titulaire.setCodePostal(resultat.getInt("codePostal"));
+			titulaires.add(titulaire);
+		}
+		
+		return titulaires;
+	}
+	
+	
 }
