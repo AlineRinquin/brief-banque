@@ -76,5 +76,29 @@ public interface Requetes {
 		
 	}
 	
+	// Romain
+	public static void createTypeDeCompte(TypeDeCompte typeCompte) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte VALUES (?, ?)");
+		PreparedStatement.setInt(1, typeCompte.getCode());
+		PreparedStatement.setString(2, typeCompte.getIntitule());
+		
+		PreparedStatement.executeUpdate();
+		
+	}
+	// Romain
+	public static void createTitulaire(Titulaire titulaire) throws SQLException {
+		
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO titulaire VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement.setInt(1, titulaire.getCode());
+		PreparedStatement.setString(2, titulaire.getPrenom());
+		PreparedStatement.setString(3, titulaire.getNom());
+		PreparedStatement.setString(4, titulaire.getAdresse());
+		PreparedStatement.setInt(5, titulaire.getCodePostal());
+
+		
+		PreparedStatement.executeUpdate();
+		
+	}
+	
 	
 }

@@ -22,10 +22,17 @@ public class Main extends AccesBD implements Requetes{
 //		}
 		
 		
-		Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
+		//Requetes.createCompte(new Compte(10010,2, 1002, 6400.00f));
 		for (Compte compte : Requetes.getAllComptes()) {
 		System.out.println(compte);
 		}
+		
+		Requetes.createTitulaire(new Titulaire(1007, "Aline", "RINQUIN", "65 avenue des requêtesSQL", 75011));
+		Requetes.createTitulaire(new Titulaire(1008, "Noreddine", "KEDDAR", "17 impasse d'Eclipse", 77900));
+		Requetes.createTitulaire(new Titulaire(1009, "Julian", "TOMCZYK", "79 rue du  JDK 16", 75011));
+
+		Requetes.createTypeDeCompte(new TypeDeCompte(9, "Compte Bar"));
+		
 	}
 
 }
