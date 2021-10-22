@@ -1,10 +1,13 @@
 package fr.leconseil.main;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import com.mysql.cj.xdevapi.PreparableStatement;
 
 import fr.leconseil.accesbd.AccesBD;
 import fr.leconseil.model.Compte;
@@ -54,13 +57,47 @@ public class Main extends AccesBD implements Requetes{
 		float solde = scanner.nextFloat();
 		
 		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
+		scanner.close();
+	}
+	
+	public static void CreateOperation() throws SQLException {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Création d'une opération ---------------");
+		float soldeActuel = 0;
+		System.out.println("Numero de compte ?");
+		int numero = scanner.nextInt();
+		System.out.println("Libelle ?");
+		String libelle = scanner.next();
+		System.out.println("Montant ?");
+		float montant = scanner.nextFloat();
+		System.out.println("Type d'opération ? ('+' ou '-')");
+		String typeop = scanner.next();
+//		if(typeop.compareTo("+") == 0) {
+//			String requete = "SELECT distinct compte.solde FROM compte INNER JOIN operations ON operations.numeroCompte = compte.numero WHERE operations.numeroCompte ="+ numero;
+//			ResultSet resultat = AccesBD.executerQuery(requete);
+//			resultat.next();
+//			soldeActuel = resultat.getInt("solde");
+//			soldeActuel += montant;
+//			System.out.println(soldeActuel);
+//		}	
+		
+		Requetes.createOperation(numero, libelle, montant, typeop);
+		
+		scanner.close();
 	}
 
 	public static void main(String[] args) throws SQLException {
 		
 		AcquisitionDonnees();
-		CreateCompte(lesTitulaires);
-		AcquisitionDonnees();
+//		CreateCompte(lesTitulaires);
+//		AcquisitionDonnees();
+		
+//		for (Operation operation : Requetes.getAllOperationsFromComptes(lesComptes.get(0))) {
+//			System.out.println(operation);
+//		}
+		
+		CreateOperation();
 		
 		//Requetes.deleteCompte(lesComptes.get(9));
 		//Requetes.updateCompte(lesComptes.get(1), 2, lesComptes.get(1).getCodeTitulaire().getCode(), 35000.00f);
