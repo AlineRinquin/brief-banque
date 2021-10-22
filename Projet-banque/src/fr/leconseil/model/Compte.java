@@ -57,7 +57,7 @@ public class Compte {
 
 	@Override
 	public String toString() {
-		return "Compte [numero=" + numero + ", codeTypeCompte=" + codeTypeCompte + ", codeTitulaire=" + codeTitulaire
+		return "Compte [numero=" + numero + ", codeTypeCompte=" + codeTypeCompte.getCode() + ", codeTitulaire=" + codeTitulaire.getCode()
 				+ ", solde=" + solde + "]";
 	}
 	

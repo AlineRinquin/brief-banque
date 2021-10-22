@@ -63,13 +63,13 @@ public interface Requetes {
 	}
 	
 	//Romain
-	public static void createCompte(Compte compte) throws SQLException {
+	public static void createCompte(int numero, int codeTypeCompte, int codeTitulaire, float solde) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO compte VALUES (?, ?, ?, ?)");
-		PreparedStatement.setInt(1, compte.getNumero());
-		//PreparedStatement.setInt(2, compte.getCodeTypeCompte());
-		//PreparedStatement.setInt(3, compte.getCodeTitulaire());
-		PreparedStatement.setFloat(4, compte.getSolde());
+		PreparedStatement.setInt(1, numero);
+		PreparedStatement.setInt(2, codeTypeCompte);
+		PreparedStatement.setInt(3, codeTitulaire);
+		PreparedStatement.setFloat(4, solde);
 		
 		PreparedStatement.executeUpdate();
 		
@@ -98,11 +98,11 @@ public interface Requetes {
 
 	//Noreddine 
 	
-	public static void updateCompte(Compte compte) throws SQLException {
+	public static void updateCompte(Compte compte, int codeTypeCompte, int codeTitulaire, float solde) throws SQLException {
 		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET codeTypeCompte = ? , codeTitulaire = ? , solde = ? WHERE numero = ? ");
-		prepareStatement.setInt(1,1);
-		prepareStatement.setInt(2,1001);
-		prepareStatement.setFloat(3,70000);
+		prepareStatement.setInt(1,codeTypeCompte);
+		prepareStatement.setInt(2,codeTitulaire);
+		prepareStatement.setFloat(3,solde);
 		prepareStatement.setInt(4,compte.getNumero());
 		
 		prepareStatement.executeUpdate();
@@ -124,10 +124,9 @@ public interface Requetes {
 
 
 	// Romain
-	public static void createTypeDeCompte(TypeDeCompte typeCompte) throws SQLException {
-		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte VALUES (?, ?)");
-		PreparedStatement.setInt(1, typeCompte.getCode());
-		PreparedStatement.setString(2, typeCompte.getIntitule());
+	public static void createTypeDeCompte(String nameType) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte(intitule) VALUES (?);");
+		PreparedStatement.setString(1, nameType);
 		
 		PreparedStatement.executeUpdate();
 		
@@ -198,11 +197,11 @@ public interface Requetes {
 			compte.setCodeTypeCompte(resultat.getInt("codeTypeCompte"));
 			compte.setCodeTitulaire(resultat.getInt("codeTitulaire"));
 			compte.setSolde(resultat.getInt("solde"));
-//			compte.getCodeTitulaire().setCode(resultat.getInt("code"));
-//			compte.getCodeTitulaire().setPrenom(resultat.getString("prenom"));
-//			compte.getCodeTitulaire().setNom(resultat.getString("nom"));
-//			compte.getCodeTitulaire().setAdresse(resultat.getString("adresse"));
-//			compte.getCodeTitulaire().setCodePostal(resultat.getInt("codePostal"));
+			compte.getCodeTitulaire().setCode(resultat.getInt("code"));
+			compte.getCodeTitulaire().setPrenom(resultat.getString("prenom"));
+			compte.getCodeTitulaire().setNom(resultat.getString("nom"));
+			compte.getCodeTitulaire().setAdresse(resultat.getString("adresse"));
+			compte.getCodeTitulaire().setCodePostal(resultat.getInt("codePostal"));
 			
 			comptes.add(compte);
 		}

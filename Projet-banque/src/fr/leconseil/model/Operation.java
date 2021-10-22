@@ -74,7 +74,7 @@ public class Operation {
 
 	@Override
 	public String toString() {
-		return "Operation [numero=" + numero + ", numeroCompte=" + numeroCompte + ", date=" + date + ", libelle="
+		return "Operation [numero=" + numero + ", numeroCompte=" + numeroCompte.getNumero() + ", date=" + date + ", libelle="
 				+ libelle + ", montant=" + montant + ", typeOp=" + typeOp + "]";
 	}
 	
