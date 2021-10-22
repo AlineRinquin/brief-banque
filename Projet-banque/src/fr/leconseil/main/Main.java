@@ -19,6 +19,7 @@ public class Main extends AccesBD implements Requetes{
 	static ArrayList<Titulaire> lesTitulaires = new ArrayList<Titulaire>();
 	static ArrayList<TypeDeCompte> lesTypesDeCompte = new ArrayList<TypeDeCompte>();
 	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 	public static void AcquisitionDonnees() throws SQLException {
 		System.out.println("------------ Acquisition des données ---------------");
 		lesComptes = Requetes.getAllComptes();
@@ -27,6 +28,7 @@ public class Main extends AccesBD implements Requetes{
 		System.out.println("------------ Terminé ---------------");
 	}
 	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 	public static void CreateCompte(ArrayList<Titulaire> lesTitulaires) throws SQLException {
 		Scanner scanner = new Scanner(System.in);
 		
@@ -42,27 +44,71 @@ public class Main extends AccesBD implements Requetes{
 		for(int index = 0; index < lesTitulaires.size(); index++) {
 			boolean check = lesTitulaires.get(index).getPrenom().contains(prenomTitulaire);
 			if(check)  {
-//				System.out.println(prenomTitulaire + " existe et son code est : " + 
-//										lesTitulaires.get(index).getCode());
+		//	System.out.println(prenomTitulaire + " existe et son code est : " + 
+		//						lesTitulaires.get(index).getCode());
 				codeTitulaire = lesTitulaires.get(index).getCode();
-				
 			}
-					
 		}
-		
 		System.out.println("Solde de départ ?");
 		float solde = scanner.nextFloat();
 		
 		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
+		scanner.close();
 	}
-
+	 
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	public static  void deleteCompte() throws SQLException{
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Supression d'un compte ---------------");
+		System.out.println("Numero de compte ?");
+		
+		int numeroCompte = scanner.nextInt();
+		Requetes.deleteCompte(numeroCompte);
+		scanner.close();
+	}
+	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+	public static  void deleteTitulaire() throws SQLException{
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Supression d'un titulaire ---------------");
+		System.out.println("Code du titulaire ?");
+		
+		int codeTitulaire = scanner.nextInt();
+		Requetes.deleteTitulaire(codeTitulaire);
+		scanner.close();
+	}
+	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+		public static  void deleteTypeDeCompte() throws SQLException{
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.println("------------ Supression d'un type de compte ---------------");
+			System.out.println("Code du type de compte ?");
+			
+			int codeTypeDeCompte = scanner.nextInt();
+			Requetes.deleteTypeDeCompte(codeTypeDeCompte);
+			scanner.close();
+		}
+		
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 	public static void main(String[] args) throws SQLException {
 		
 		AcquisitionDonnees();
-		CreateCompte(lesTitulaires);
+		//CreateCompte(lesTitulaires);
+		//deleteCompte();
+		//deleteTitulaire();
+		deleteTypeDeCompte();
 		AcquisitionDonnees();
-		
-		//Requetes.deleteCompte(lesComptes.get(9));
+	}
+	
+	
+	
+	
+	
 		//Requetes.updateCompte(lesComptes.get(1), 2, lesComptes.get(1).getCodeTitulaire().getCode(), 35000.00f);
 		//Requetes.createTypeDeCompte("test2");
 		
@@ -74,10 +120,10 @@ public class Main extends AccesBD implements Requetes{
 //		System.out.println("------------ Terminé ---------------");
 //		
 //		
-		System.out.println("------------ Tout les comptes ---------------");
-		for (Compte compte : lesComptes) {
-			System.out.println(compte);
-		}
+//		System.out.println("------------ Tout les comptes ---------------");
+//		for (Compte compte : lesComptes) {
+//			System.out.println(compte);
+//		}
 		
 //		System.out.println("------------ Tout les titulaires ---------------");
 //		for (Titulaire titulaire : lesTitulaires) {
@@ -96,4 +142,4 @@ public class Main extends AccesBD implements Requetes{
 		
 	}
 
-}
+
