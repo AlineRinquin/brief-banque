@@ -27,6 +27,7 @@ public interface Requetes {
 		return comptes;
 	}
 	
+	
 	//Noreddine
 	public static ArrayList<Titulaire> getAllTitulaire() throws SQLException {
 		ArrayList<Titulaire> titulaires = new ArrayList<Titulaire>();
@@ -46,6 +47,7 @@ public interface Requetes {
 		return titulaires;
 	}
 	
+	
 	//Aline
 	public static ArrayList<TypeDeCompte> getAllTypeDeCompte() throws SQLException {
 		ArrayList<TypeDeCompte> typeDeComptes = new ArrayList<TypeDeCompte>();
@@ -62,18 +64,20 @@ public interface Requetes {
 		return typeDeComptes;
 	}
 	
+	
 	//Romain
 	public static void createCompte(int numero, int codeTypeCompte, int codeTitulaire, float solde) throws SQLException {
-		
-		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO compte VALUES (?, ?, ?, ?)");
-		PreparedStatement.setInt(1, numero);
-		PreparedStatement.setInt(2, codeTypeCompte);
-		PreparedStatement.setInt(3, codeTitulaire);
-		PreparedStatement.setFloat(4, solde);
-		
-		PreparedStatement.executeUpdate();
-		
-	}
+
+        PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO compte VALUES (?, ?, ?, ?)");
+        PreparedStatement.setInt(1, numero);
+        PreparedStatement.setInt(2, codeTypeCompte);
+        PreparedStatement.setInt(3, codeTitulaire);
+        PreparedStatement.setFloat(4, solde);
+
+        PreparedStatement.executeUpdate();
+
+    }
+	
 	
 	//Julian
 		public static ArrayList<Operation> getAllOperationsFromComptes(Compte compte) throws SQLException {
@@ -98,18 +102,23 @@ public interface Requetes {
 
 	//Noreddine 
 	
+
 	public static void updateCompte(int numeroCompte, float solde) throws SQLException {
 		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET solde = ? WHERE numero = ? ");
 		prepareStatement.setFloat(1,solde);
 		prepareStatement.setInt(2,numeroCompte);
-		
+
 		prepareStatement.executeUpdate();
 		
 	}
 	
+	
+
+	
+
 	//Noreddine
 	
-	public static void updateTitulaire(String adresse, int codePostale, int code) throws SQLException {
+		public static void updateTitulaire(String adresse, int codePostale, int code) throws SQLException {
 		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE titulaire SET adresse = ?, codePostal = ? WHERE code = ? ");
 		prepareStatement.setString(1,adresse);
 		prepareStatement.setInt(2,codePostale);
@@ -120,13 +129,16 @@ public interface Requetes {
 
 
 	// Romain
-	public static void createTypeDeCompte(String nameType) throws SQLException {
-		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte(intitule) VALUES (?);");
-		PreparedStatement.setString(1, nameType);
+	public static void createTypeDeCompte(TypeDeCompte typeCompte) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte VALUES (?, ?)");
+		PreparedStatement.setInt(1, typeCompte.getCode());
+		PreparedStatement.setString(2, typeCompte.getIntitule());
 		
 		PreparedStatement.executeUpdate();
 		
 	}
+	
+	
 	// Romain
 	public static void createTitulaire(Titulaire titulaire) throws SQLException {
 		
@@ -139,11 +151,7 @@ public interface Requetes {
 
 		
 		PreparedStatement.executeUpdate();
-
-		
 	}
-	
-
 
 	//Noreddine
 	public static void updateTypeDeCompte(String newTypeCompte,int code) throws SQLException {
@@ -154,27 +162,28 @@ public interface Requetes {
 		prepareStatement.executeUpdate();
 	}
 
+	
 	//Aline
-	public static void deleteCompte(Compte compte) throws SQLException {
+	public static void deleteCompte(int numeroCompte) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Compte WHERE numero=?");
-		PreparedStatement.setInt(1, compte.getNumero());
+		PreparedStatement.setInt(1, numeroCompte);
 		PreparedStatement.executeUpdate();
 	}
 	
 	//Aline
-	public static void deleteTitulaire(Titulaire titulaire) throws SQLException {
+	public static void deleteTitulaire(int codeTitulaire) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Titulaire WHERE code=?");
-		PreparedStatement.setInt(1, titulaire.getCode());
+		PreparedStatement.setInt(1, codeTitulaire);
 		PreparedStatement.executeUpdate();
 	}
 	
 	//Aline
-	public static void deleteTypeDeCompte(TypeDeCompte typeDeCompte) throws SQLException {
+	public static void deleteTypeDeCompte(int codeTypeDeCompte) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("DELETE FROM Typecompte WHERE code=?");
-		PreparedStatement.setInt(1, typeDeCompte.getCode());
+		PreparedStatement.setInt(1, codeTypeDeCompte);
 		PreparedStatement.executeUpdate();
 	}
 	 
@@ -182,7 +191,6 @@ public interface Requetes {
 	//Aline
 	public static ArrayList<Compte> getAllComptesFromTitulaire (Titulaire titulaire) throws SQLException {
 		
-
 		ArrayList<Compte> comptes=new ArrayList<Compte>();
 		String requete = "select compte.numero, compte.codeTypeCompte, compte.codeTitulaire, compte.solde, titulaire.* from compte inner join titulaire on compte.codeTitulaire = titulaire.code and titulaire.code ="+ titulaire.getCode();
 		ResultSet resultat = AccesBD.executerQuery(requete);
@@ -201,8 +209,17 @@ public interface Requetes {
 			comptes.add(compte);
 		}
 		return comptes;
-		
+	}
 	
+	//Julian
+	public static void createOperation(int numeroCompte, String libelle, float montant, String typeop) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement
+				("INSERT INTO operations(numeroCompte, date, libelle, montant, typeop) VALUES (?, DATE( NOW() ), ?, ?, ?);");
+		PreparedStatement.setInt(1, numeroCompte);
+		PreparedStatement.setString(2, libelle);
+		PreparedStatement.setFloat(3, montant);
+		PreparedStatement.setString(4, typeop);
+		PreparedStatement.executeUpdate();
 	}
 	
 }

@@ -1,10 +1,13 @@
 package fr.leconseil.main;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import com.mysql.cj.xdevapi.PreparableStatement;
 
 import fr.leconseil.accesbd.AccesBD;
 import fr.leconseil.model.Compte;
@@ -19,6 +22,7 @@ public class Main extends AccesBD implements Requetes{
 	static ArrayList<Titulaire> lesTitulaires = new ArrayList<Titulaire>();
 	static ArrayList<TypeDeCompte> lesTypesDeCompte = new ArrayList<TypeDeCompte>();
 	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 	public static void AcquisitionDonnees() throws SQLException {
 		System.out.println("------------ Acquisition des données ---------------");
 		lesComptes = Requetes.getAllComptes();
@@ -27,46 +31,46 @@ public class Main extends AccesBD implements Requetes{
 		System.out.println("------------ Terminé ---------------");
 	}
 	
-//	public static void CreateCompte(ArrayList<Titulaire> lesTitulaires) throws SQLException {
-//		Scanner scanner = new Scanner(System.in);
-//		
-//		System.out.println("------------ Création d'un nouveau compte ---------------");
-//		System.out.println("Numero de compte ?");
-//		int numero = scanner.nextInt();
-//		System.out.println("Type de compte ?");
-//		int typeDeCompte = scanner.nextInt();
-//		System.out.println("Prenom titulaire ?");
-//		String prenomTitulaire = scanner.next();
-//		int codeTitulaire = 0;
-//		
-//		for(int index = 0; index < lesTitulaires.size(); index++) {
-//			boolean check = lesTitulaires.get(index).getPrenom().contains(prenomTitulaire);
-//			if(check)  {
-////				System.out.println(prenomTitulaire + " existe et son code est : " + 
-////										lesTitulaires.get(index).getCode());
-//				codeTitulaire = lesTitulaires.get(index).getCode();
-//				
-//			}
-//					
-//		}
-//		
-//		System.out.println("Solde de départ ?");
-//		float solde = scanner.nextFloat();
-//		
-//		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
-//	}
+	public static void CreateCompte(ArrayList<Titulaire> lesTitulaires) throws SQLException {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Création d'un nouveau compte ---------------");
+		System.out.println("Numero de compte ?");
+		int numero = scanner.nextInt();
+		System.out.println("Type de compte ?");
+		int typeDeCompte = scanner.nextInt();
+		System.out.println("Prenom titulaire ?");
+		String prenomTitulaire = scanner.next();
+		int codeTitulaire = 0;
+		
+		for(int index = 0; index < lesTitulaires.size(); index++) {
+			boolean check = lesTitulaires.get(index).getPrenom().contains(prenomTitulaire);
+			if(check)  {
+//				System.out.println(prenomTitulaire + " existe et son code est : " + 
+//										lesTitulaires.get(index).getCode());
+				codeTitulaire = lesTitulaires.get(index).getCode();
+				
+			}
+					
+		}
+		
+		System.out.println("Solde de départ ?");
+		float solde = scanner.nextFloat();
+		
+		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
+	}
 	
 	//Noreddine
 	
 	public static void UpdateCompte() throws SQLException {
 	try (Scanner scanner = new Scanner(System.in)) {
-		System.out.println("------------ Update d'un compte ---------------");
-		
+		System.out.println("------------ Update d'un compte ---------------");		
 		System.out.println("Numero du compte ?");
 		int numeroDeCompte = scanner.nextInt();
 		System.out.println("Nouveau Solde ?");
 		float solde = scanner.nextFloat();
 		
+
 		Requetes.updateCompte(numeroDeCompte, solde);
 		scanner.close();
 	}
@@ -104,12 +108,74 @@ public class Main extends AccesBD implements Requetes{
 	}
 	
 }
-	
-	
-	
-	
-	
 
+		public static void CreateOperation() throws SQLException {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Création d'une opération ---------------");
+		float soldeActuel = 0;
+		System.out.println("Numero de compte ?");
+		int numero = scanner.nextInt();
+		System.out.println("Libelle ?");
+		String libelle = scanner.next();
+		System.out.println("Montant ?");
+		float montant = scanner.nextFloat();
+		System.out.println("Type d'opération ? ('+' ou '-')");
+		String typeop = scanner.next();
+//		if(typeop.compareTo("+") == 0) {
+//			String requete = "SELECT distinct compte.solde FROM compte INNER JOIN operations ON operations.numeroCompte = compte.numero WHERE operations.numeroCompte ="+ numero;
+//			ResultSet resultat = AccesBD.executerQuery(requete);
+//			resultat.next();
+//			soldeActuel = resultat.getInt("solde");
+//			soldeActuel += montant;
+//			System.out.println(soldeActuel);
+//		}	
+		
+		Requetes.createOperation(numero, libelle, montant, typeop);
+		
+		scanner.close();
+
+	}
+	 
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	public static  void deleteCompte() throws SQLException{
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Supression d'un compte ---------------");
+		System.out.println("Numero de compte ?");
+		
+		int numeroCompte = scanner.nextInt();
+		Requetes.deleteCompte(numeroCompte);
+		scanner.close();
+	}
+	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+	public static  void deleteTitulaire() throws SQLException{
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("------------ Supression d'un titulaire ---------------");
+		System.out.println("Code du titulaire ?");
+		
+		int codeTitulaire = scanner.nextInt();
+		Requetes.deleteTitulaire(codeTitulaire);
+		scanner.close();
+	}
+	
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+		public static  void deleteTypeDeCompte() throws SQLException{
+			Scanner scanner = new Scanner(System.in);
+			
+			System.out.println("------------ Supression d'un type de compte ---------------");
+			System.out.println("Code du type de compte ?");
+			
+			int codeTypeDeCompte = scanner.nextInt();
+			Requetes.deleteTypeDeCompte(codeTypeDeCompte);
+			scanner.close();
+		}
+		
+	//_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 	public static void main(String[] args) throws SQLException {
 		
 		AcquisitionDonnees();
@@ -117,9 +183,30 @@ public class Main extends AccesBD implements Requetes{
 //		UpdateCompte();
 //		UpdateTitulaire();
 		UpdateTypeCompte();
+
+		//CreateCompte(lesTitulaires);
+		//deleteCompte();
+		//deleteTitulaire();
+		deleteTypeDeCompte();
 		AcquisitionDonnees();
+	}
+	
+	
+	
+	
+	
+
+//		CreateCompte(lesTitulaires);
+//		AcquisitionDonnees();
+		
+//		for (Operation operation : Requetes.getAllOperationsFromComptes(lesComptes.get(0))) {
+//			System.out.println(operation);
+//		}
+		
+
 		
 		//Requetes.deleteCompte(lesComptes.get(9));
+
 		//Requetes.updateCompte(lesComptes.get(1), 2, lesComptes.get(1).getCodeTitulaire().getCode(), 35000.00f);
 		//Requetes.createTypeDeCompte("test2");
 		
@@ -131,10 +218,10 @@ public class Main extends AccesBD implements Requetes{
 //		System.out.println("------------ Terminé ---------------");
 //		
 //		
-		System.out.println("------------ Tout les comptes ---------------");
-		for (Compte compte : lesComptes) {
-			System.out.println(compte);
-		}
+//		System.out.println("------------ Tout les comptes ---------------");
+//		for (Compte compte : lesComptes) {
+//			System.out.println(compte);
+//		}
 		
 //		System.out.println("------------ Tout les titulaires ---------------");
 //		for (Titulaire titulaire : lesTitulaires) {
@@ -153,4 +240,4 @@ public class Main extends AccesBD implements Requetes{
 		
 	}
 
-}
+
