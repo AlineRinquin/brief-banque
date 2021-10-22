@@ -191,7 +191,6 @@ public interface Requetes {
 	//Aline
 	public static ArrayList<Compte> getAllComptesFromTitulaire (Titulaire titulaire) throws SQLException {
 		
-
 		ArrayList<Compte> comptes=new ArrayList<Compte>();
 		String requete = "select compte.numero, compte.codeTypeCompte, compte.codeTitulaire, compte.solde, titulaire.* from compte inner join titulaire on compte.codeTitulaire = titulaire.code and titulaire.code ="+ titulaire.getCode();
 		ResultSet resultat = AccesBD.executerQuery(requete);
@@ -210,8 +209,17 @@ public interface Requetes {
 			comptes.add(compte);
 		}
 		return comptes;
-		
+	}
 	
+	//Julian
+	public static void createOperation(int numeroCompte, String libelle, float montant, String typeop) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement
+				("INSERT INTO operations(numeroCompte, date, libelle, montant, typeop) VALUES (?, DATE( NOW() ), ?, ?, ?);");
+		PreparedStatement.setInt(1, numeroCompte);
+		PreparedStatement.setString(2, libelle);
+		PreparedStatement.setFloat(3, montant);
+		PreparedStatement.setString(4, typeop);
+		PreparedStatement.executeUpdate();
 	}
 	
 }
