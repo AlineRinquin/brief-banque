@@ -98,12 +98,10 @@ public interface Requetes {
 
 	//Noreddine 
 	
-	public static void updateCompte(Compte compte, int codeTypeCompte, int codeTitulaire, float solde) throws SQLException {
-		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET codeTypeCompte = ? , codeTitulaire = ? , solde = ? WHERE numero = ? ");
-		prepareStatement.setInt(1,codeTypeCompte);
-		prepareStatement.setInt(2,codeTitulaire);
-		prepareStatement.setFloat(3,solde);
-		prepareStatement.setInt(4,compte.getNumero());
+	public static void updateCompte(int numeroCompte, float solde) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE compte SET solde = ? WHERE numero = ? ");
+		prepareStatement.setFloat(1,solde);
+		prepareStatement.setInt(2,numeroCompte);
 		
 		prepareStatement.executeUpdate();
 		
@@ -111,13 +109,11 @@ public interface Requetes {
 	
 	//Noreddine
 	
-	public static void updateTitulaire(Titulaire titulaire) throws SQLException {
-		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE titulaire SET prenom = ? , nom = ? , adresse = ?, codePostal = ? WHERE code = ? ");
-		prepareStatement.setString(1,titulaire.getNom());
-		prepareStatement.setString(2,titulaire.getPrenom());
-		prepareStatement.setString(3,titulaire.getAdresse());
-		prepareStatement.setInt(4,titulaire.getCodePostal());
-		prepareStatement.setInt(5,titulaire.getCode());
+	public static void updateTitulaire(String adresse, int codePostale, int code) throws SQLException {
+		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE titulaire SET adresse = ?, codePostal = ? WHERE code = ? ");
+		prepareStatement.setString(1,adresse);
+		prepareStatement.setInt(2,codePostale);
+		prepareStatement.setInt(3,code);
 		
 		prepareStatement.executeUpdate();
 	}
@@ -150,11 +146,10 @@ public interface Requetes {
 
 
 	//Noreddine
-	
-	public static void updateTypeDeCompte(TypeDeCompte typeDeCompte) throws SQLException {
+	public static void updateTypeDeCompte(String newTypeCompte,int code) throws SQLException {
 		PreparedStatement prepareStatement = AccesBD.getConnection().prepareStatement("UPDATE typecompte SET intitule = ? WHERE code = ? ");
-		prepareStatement.setString(1,typeDeCompte.getIntitule());
-		prepareStatement.setInt(2,typeDeCompte.getCode());
+		prepareStatement.setString(1,newTypeCompte);
+		prepareStatement.setInt(2,code);
 		
 		prepareStatement.executeUpdate();
 	}

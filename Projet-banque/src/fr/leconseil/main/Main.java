@@ -27,39 +27,96 @@ public class Main extends AccesBD implements Requetes{
 		System.out.println("------------ Terminé ---------------");
 	}
 	
-	public static void CreateCompte(ArrayList<Titulaire> lesTitulaires) throws SQLException {
-		Scanner scanner = new Scanner(System.in);
+//	public static void CreateCompte(ArrayList<Titulaire> lesTitulaires) throws SQLException {
+//		Scanner scanner = new Scanner(System.in);
+//		
+//		System.out.println("------------ Création d'un nouveau compte ---------------");
+//		System.out.println("Numero de compte ?");
+//		int numero = scanner.nextInt();
+//		System.out.println("Type de compte ?");
+//		int typeDeCompte = scanner.nextInt();
+//		System.out.println("Prenom titulaire ?");
+//		String prenomTitulaire = scanner.next();
+//		int codeTitulaire = 0;
+//		
+//		for(int index = 0; index < lesTitulaires.size(); index++) {
+//			boolean check = lesTitulaires.get(index).getPrenom().contains(prenomTitulaire);
+//			if(check)  {
+////				System.out.println(prenomTitulaire + " existe et son code est : " + 
+////										lesTitulaires.get(index).getCode());
+//				codeTitulaire = lesTitulaires.get(index).getCode();
+//				
+//			}
+//					
+//		}
+//		
+//		System.out.println("Solde de départ ?");
+//		float solde = scanner.nextFloat();
+//		
+//		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
+//	}
+	
+	//Noreddine
+	
+	public static void UpdateCompte() throws SQLException {
+	try (Scanner scanner = new Scanner(System.in)) {
+		System.out.println("------------ Update d'un compte ---------------");
 		
-		System.out.println("------------ Création d'un nouveau compte ---------------");
-		System.out.println("Numero de compte ?");
-		int numero = scanner.nextInt();
-		System.out.println("Type de compte ?");
-		int typeDeCompte = scanner.nextInt();
-		System.out.println("Prenom titulaire ?");
-		String prenomTitulaire = scanner.next();
-		int codeTitulaire = 0;
-		
-		for(int index = 0; index < lesTitulaires.size(); index++) {
-			boolean check = lesTitulaires.get(index).getPrenom().contains(prenomTitulaire);
-			if(check)  {
-//				System.out.println(prenomTitulaire + " existe et son code est : " + 
-//										lesTitulaires.get(index).getCode());
-				codeTitulaire = lesTitulaires.get(index).getCode();
-				
-			}
-					
-		}
-		
-		System.out.println("Solde de départ ?");
+		System.out.println("Numero du compte ?");
+		int numeroDeCompte = scanner.nextInt();
+		System.out.println("Nouveau Solde ?");
 		float solde = scanner.nextFloat();
 		
-		Requetes.createCompte(numero, typeDeCompte, codeTitulaire, solde);
+		Requetes.updateCompte(numeroDeCompte, solde);
+		scanner.close();
 	}
+}
+	//Noreddine
+	
+	public static void UpdateTitulaire() throws SQLException {
+	try (Scanner scanner = new Scanner(System.in)) {
+		System.out.println("------------ Update des Infos du Titulaire ---------------");
+		System.out.println(" Code Compte? ");
+		int code = scanner.nextInt();
+		System.out.println("Nouvelle adresse ?");
+		String newAdresse = scanner.next();
+		System.out.println("Nouveau CodePostal ?");
+		int codePostale = scanner.nextInt();
+		
+		
+		Requetes.updateTitulaire(newAdresse, codePostale, code);
+		scanner.close();
+	}
+}
+	//Noreddine
+	public static void UpdateTypeCompte() throws SQLException {
+	try (Scanner scanner = new Scanner(System.in)) {
+		System.out.println("------------ Update Type De Compte ---------------");
+		System.out.println(" Code Compte? ");
+		int code = scanner.nextInt();
+		System.out.println(" Nouveau Type De Compte ?");
+		String newTypeCompte = scanner.next();
+		
+		
+		Requetes.updateTypeDeCompte(newTypeCompte,code);
+		
+		scanner.close();
+	}
+	
+}
+	
+	
+	
+	
+	
 
 	public static void main(String[] args) throws SQLException {
 		
 		AcquisitionDonnees();
-		CreateCompte(lesTitulaires);
+//		CreateCompte();
+//		UpdateCompte();
+//		UpdateTitulaire();
+		UpdateTypeCompte();
 		AcquisitionDonnees();
 		
 		//Requetes.deleteCompte(lesComptes.get(9));
