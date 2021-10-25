@@ -4,6 +4,7 @@ public class TypeDeCompte {
 
 	private int code;
 	private String intitule;
+	
 	public TypeDeCompte(int code, String intitule) {
 		super();
 		this.code = code;

@@ -80,15 +80,15 @@ public interface Requetes {
 	
 	
 	//Julian
-		public static ArrayList<Operation> getAllOperationsFromComptes(Compte compte) throws SQLException {
+		public static ArrayList<Operation> getAllOperationsFromComptes(int numero) throws SQLException {
 			ArrayList<Operation> operations = new ArrayList<Operation>();
-			String requete = "SELECT * FROM operations WHERE numeroCompte = " + compte.getNumero();
+			String requete = "SELECT * FROM operations WHERE numeroCompte = " + numero;
 			ResultSet resultat = AccesBD.executerQuery(requete);
 			
 			while(resultat.next()) {
 				Operation operation = new Operation();
 				operation.setNumero(resultat.getInt("numero"));
-				operation.setNumeroCompte(compte);
+				operation.setNumeroCompte(new Compte(numero));
 				operation.setDate(resultat.getDate("date"));
 				operation.setLibelle(resultat.getString("libelle"));
 				operation.setMontant(resultat.getFloat("montant"));
@@ -129,10 +129,9 @@ public interface Requetes {
 
 
 	// Romain
-	public static void createTypeDeCompte(TypeDeCompte typeCompte) throws SQLException {
-		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte VALUES (?, ?)");
-		PreparedStatement.setInt(1, typeCompte.getCode());
-		PreparedStatement.setString(2, typeCompte.getIntitule());
+	public static void createTypeDeCompte(String intitule) throws SQLException {
+		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO typecompte (intitule) VALUES (?)");
+		PreparedStatement.setString(1, intitule);
 		
 		PreparedStatement.executeUpdate();
 		
@@ -140,16 +139,15 @@ public interface Requetes {
 	
 	
 	// Romain
-	public static void createTitulaire(Titulaire titulaire) throws SQLException {
+	public static void createTitulaire(int code, String prenom, String nom, String adresse, int codePostal) throws SQLException {
 		
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement("INSERT INTO titulaire VALUES (?, ?, ?, ?, ?)");
-		PreparedStatement.setInt(1, titulaire.getCode());
-		PreparedStatement.setString(2, titulaire.getPrenom());
-		PreparedStatement.setString(3, titulaire.getNom());
-		PreparedStatement.setString(4, titulaire.getAdresse());
-		PreparedStatement.setInt(5, titulaire.getCodePostal());
+		PreparedStatement.setInt(1, code);
+		PreparedStatement.setString(2, prenom);
+		PreparedStatement.setString(3, nom);
+		PreparedStatement.setString(4, adresse);
+		PreparedStatement.setInt(5, codePostal);
 
-		
 		PreparedStatement.executeUpdate();
 	}
 
@@ -189,10 +187,10 @@ public interface Requetes {
 	 
 	
 	//Aline
-	public static ArrayList<Compte> getAllComptesFromTitulaire (Titulaire titulaire) throws SQLException {
+	public static ArrayList<Compte> getAllComptesFromTitulaire (int code) throws SQLException {
 		
 		ArrayList<Compte> comptes=new ArrayList<Compte>();
-		String requete = "select compte.numero, compte.codeTypeCompte, compte.codeTitulaire, compte.solde, titulaire.* from compte inner join titulaire on compte.codeTitulaire = titulaire.code and titulaire.code ="+ titulaire.getCode();
+		String requete = "select compte.numero, compte.codeTypeCompte, compte.codeTitulaire, compte.solde, titulaire.* from compte inner join titulaire on compte.codeTitulaire = titulaire.code and titulaire.code ="+ code;
 		ResultSet resultat = AccesBD.executerQuery(requete);
 		while(resultat.next()) {
 			Compte compte = new Compte();
@@ -212,6 +210,35 @@ public interface Requetes {
 	}
 	
 	//Julian
+	public static Compte getCompte(int numeroCompte) throws SQLException {
+		Compte compte = new Compte();
+		String requete = "SELECT * FROM compte WHERE compte.numero =" + numeroCompte;
+		ResultSet resultat = AccesBD.executerQuery(requete);
+		resultat.next();
+		compte.setNumero(resultat.getInt("numero"));
+		compte.setCodeTypeCompte(resultat.getInt("codeTypeCompte"));
+		compte.setCodeTitulaire(resultat.getInt("codeTitulaire"));
+		compte.setSolde(resultat.getInt("solde"));
+		
+		return compte;
+	}
+	
+	//Julian
+	public static Titulaire getTitulaire(int code) throws SQLException {
+		Titulaire titulaire = new Titulaire();
+		String requete = "SELECT * FROM titulaire WHERE titulaire.code =" + code;
+		ResultSet resultat = AccesBD.executerQuery(requete);
+		resultat.next();
+		titulaire.setCode(resultat.getInt("code"));
+		titulaire.setPrenom(resultat.getString("prenom"));
+		titulaire.setNom(resultat.getString("nom"));
+		titulaire.setAdresse(resultat.getString("adresse"));
+		titulaire.setCodePostal(resultat.getInt("codePostal"));
+		
+		return titulaire;
+	}
+	
+	//Julian
 	public static void createOperation(int numeroCompte, String libelle, float montant, String typeop) throws SQLException {
 		PreparedStatement PreparedStatement = AccesBD.getConnection().prepareStatement
 				("INSERT INTO operations(numeroCompte, date, libelle, montant, typeop) VALUES (?, DATE( NOW() ), ?, ?, ?);");
@@ -220,6 +247,19 @@ public interface Requetes {
 		PreparedStatement.setFloat(3, montant);
 		PreparedStatement.setString(4, typeop);
 		PreparedStatement.executeUpdate();
+		
+		Compte compte = getCompte(numeroCompte);
+		if(typeop.contains("+")) {
+			compte.setSolde(compte.getSolde() + montant);
+			updateCompte(numeroCompte, compte.getSolde());
+		}
+		else if(typeop.contains("-")) {
+			compte.setSolde(compte.getSolde() - montant);
+			updateCompte(numeroCompte, compte.getSolde());
+		}
+		else {
+			System.out.println("Erreur mauvais opérateur de type");
+		}
 	}
 	
 }
