@@ -236,7 +236,7 @@ public class Main extends AccesBD implements Requetes{
 	public static void ListAllCompteForOneTitulaire() throws SQLException {
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("------------ Toute les opérations pour un compte ---------------");
+		System.out.println("------------ Toute les comptes d'un titulaire ---------------");
 		System.out.println("Code titulaire ?");
 		int code = scanner.nextInt();
 		for (Compte compte : Requetes.getAllComptesFromTitulaire(code)) {
